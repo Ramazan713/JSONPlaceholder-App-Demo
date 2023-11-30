@@ -4,4 +4,7 @@ import io.ktor.resources.Resource
 
 @Resource("/users")
 class UsersResource {
+
+    @Resource("{id}")
+    class Id(val parent: UsersResource = UsersResource(),val id: Int)
 }

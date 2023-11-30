@@ -2,7 +2,8 @@ CREATE TABLE Posts (
     id INTEGER PRIMARY KEY,
     userId INTEGER NOT NULL,
     body TEXT NOT NULL,
-    title TEXT NOT NULL
+    title TEXT NOT NULL,
+    FOREIGN KEY(userId) REFERENCES Users(id) ON DELETE CASCADE
 );
 
 getPostByUserId:

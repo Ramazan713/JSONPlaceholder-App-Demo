@@ -7,6 +7,6 @@ object SampleData{
 
     val user = User(id = 1, name = "User", username = "username.x", email = "example@gmail.com")
 
-    val post = Post("post body",1,"title",1)
+    val post = Post("post body",1,"title",1, username = "username")
 
 }

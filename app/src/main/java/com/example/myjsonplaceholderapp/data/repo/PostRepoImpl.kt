@@ -1,6 +1,7 @@
 package com.example.myjsonplaceholderapp.data.repo
 
 import android.util.Log
+import com.example.myjsonplaceholderapp.data.local.service.DetailPostDataSource
 import com.example.myjsonplaceholderapp.data.local.service.PostDataSource
 import com.example.myjsonplaceholderapp.data.mapper.toPost
 import com.example.myjsonplaceholderapp.data.mapper.toPostDtoRequest
@@ -14,7 +15,8 @@ import kotlinx.coroutines.flow.map
 
 class PostRepoImpl constructor(
     private val ktorApi: KtorApi,
-    private val postDataSource: PostDataSource
+    private val postDataSource: PostDataSource,
+    private val detailPostDataSource: DetailPostDataSource
 ): PostRepo {
     override suspend fun refreshPosts(userId: Int) {
         try {
@@ -26,7 +28,7 @@ class PostRepoImpl constructor(
     }
 
     override suspend fun getFlowPostsByUserId(userId: Int): Flow<List<Post>> {
-        return postDataSource.getPostsByUserId(userId)
+        return detailPostDataSource.getPostsByUserId(userId)
             .map { items->
                 items.map { it.toPost() }
             }

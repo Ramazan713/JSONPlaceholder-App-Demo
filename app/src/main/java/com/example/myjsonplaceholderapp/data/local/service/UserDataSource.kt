@@ -1,10 +1,13 @@
 package com.example.myjsonplaceholderapp.data.local.service
 
+import app.cash.sqldelight.coroutines.asFlow
+import app.cash.sqldelight.coroutines.mapToList
 import com.example.Posts
 import com.example.UserQueries
 import com.example.Users
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.withContext
 
 class UserDataSource constructor(
@@ -12,9 +15,10 @@ class UserDataSource constructor(
     private val ioDispatcher: CoroutineDispatcher = Dispatchers.IO
 )  {
 
-    suspend fun getUsers(): List<Users>{
+    fun getUsers(): Flow<List<Users>>{
         return userQueries.getUsers()
-            .executeAsList()
+            .asFlow()
+            .mapToList(ioDispatcher)
     }
 
     suspend fun getUserById(userId: Int): Users?{

@@ -22,6 +22,14 @@ class KtorApiImpl constructor(
             .body()
     }
 
+    override suspend fun deleteUserById(userId: Int) {
+        client.delete {
+            url {
+                path("users",userId.toString())
+            }
+        }
+    }
+
     override suspend fun getPosts(userId: Int): List<PostDtoResponse>{
         return client.get {
             url {

@@ -18,7 +18,7 @@ import com.example.myjsonplaceholderapp.presentation.home.components.UserRow
 fun HomePage(
     state: HomeState,
     onNavigateToDetail: (Int) -> Unit,
-    onRefresh: () -> Unit,
+    onEvent: (HomeEvent) -> Unit,
 ) {
 
 
@@ -35,7 +35,9 @@ fun HomePage(
         LazyColumn {
 
             item {
-                Button(onClick = onRefresh) {
+                Button(onClick = {
+                    onEvent(HomeEvent.Refresh)
+                }) {
                     Text(text = "Refresh")
                 }
             }
@@ -45,6 +47,9 @@ fun HomePage(
                     user = item,
                     onClick = {
                         onNavigateToDetail(item.id)
+                    },
+                    onDelete = {
+                        onEvent(HomeEvent.Delete(item))
                     }
                 )
             }
@@ -61,6 +66,6 @@ fun HomePagePreview() {
     HomePage(
         state = HomeState(),
         onNavigateToDetail = {},
-        onRefresh = {}
+        onEvent = {}
     )
 }

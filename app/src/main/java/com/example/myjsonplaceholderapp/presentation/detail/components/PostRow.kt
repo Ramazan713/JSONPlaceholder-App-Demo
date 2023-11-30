@@ -56,7 +56,7 @@ fun PostRow(
                 horizontalArrangement = Arrangement.spacedBy(8.dp)
             ) {
                 Text(
-                    text = post.userId.toString(),
+                    text = post.username.toString(),
                     style = MaterialTheme.typography.bodySmall
                 )
                 Spacer(modifier = Modifier.weight(1f))

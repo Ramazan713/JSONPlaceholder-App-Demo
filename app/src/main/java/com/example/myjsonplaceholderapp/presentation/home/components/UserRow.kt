@@ -5,8 +5,11 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Delete
+import androidx.compose.material.icons.filled.DeleteForever
 import androidx.compose.material.icons.filled.NavigateNext
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.ListItem
 import androidx.compose.material3.ListItemDefaults
 import androidx.compose.material3.MaterialTheme
@@ -24,6 +27,7 @@ fun UserRow(
     modifier: Modifier = Modifier,
     user: User,
     onClick: () -> Unit,
+    onDelete: () -> Unit,
     margins: PaddingValues = PaddingValues(horizontal = 4.dp, vertical = 4.dp)
 ) {
     val shape = MaterialTheme.shapes.medium
@@ -49,7 +53,9 @@ fun UserRow(
             Text(text = user.email)
         },
         trailingContent = {
-            Icon(imageVector = Icons.Default.NavigateNext, contentDescription = null)
+            IconButton(onClick = onDelete) {
+                Icon(imageVector = Icons.Default.DeleteForever, contentDescription = "Delete")
+            }
         }
     )
 }
@@ -60,6 +66,7 @@ fun UserRow(
 fun UserRowPreview() {
     UserRow(
         user = SampleData.user,
-        onClick = {}
+        onClick = {},
+        onDelete = {}
     )
 }

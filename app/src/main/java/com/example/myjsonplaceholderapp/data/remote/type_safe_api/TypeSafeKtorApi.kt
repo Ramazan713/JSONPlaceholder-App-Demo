@@ -17,6 +17,10 @@ class TypeSafeKtorApi constructor(
         return client.get(UsersResource()).body()
     }
 
+    override suspend fun deleteUserById(userId: Int) {
+        client.delete(UsersResource.Id(id = userId))
+    }
+
     override suspend fun getPosts(userId: Int): List<PostDtoResponse> {
         return client.get(PostsResource(userId)).body()
     }

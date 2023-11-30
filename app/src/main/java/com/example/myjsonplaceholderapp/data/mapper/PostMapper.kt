@@ -1,5 +1,6 @@
 package com.example.myjsonplaceholderapp.data.mapper
 
+import com.example.DetailPostView
 import com.example.Posts
 import com.example.myjsonplaceholderapp.data.remote.dto.PostDtoRequest
 import com.example.myjsonplaceholderapp.data.remote.dto.PostDtoResponse
@@ -17,11 +18,12 @@ fun PostDtoResponse.toPostEntity(): Posts {
     )
 }
 
-fun Posts.toPost(): Post {
+fun DetailPostView.toPost(): Post {
     return Post(
         id = id.toInt(),
         userId = userId.toInt(),
         body = body,
-        title = title
+        title = title,
+        username = username
     )
 }

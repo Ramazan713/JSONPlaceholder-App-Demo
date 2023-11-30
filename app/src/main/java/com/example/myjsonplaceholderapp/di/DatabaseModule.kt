@@ -4,6 +4,7 @@ import androidx.sqlite.db.SupportSQLiteDatabase
 import app.cash.sqldelight.db.SqlDriver
 import app.cash.sqldelight.driver.android.AndroidSqliteDriver
 import com.example.AppDatabase
+import com.example.myjsonplaceholderapp.data.local.service.DetailPostDataSource
 import com.example.myjsonplaceholderapp.data.local.service.PostDataSource
 import com.example.myjsonplaceholderapp.data.local.service.UserDataSource
 import org.koin.dsl.module
@@ -34,5 +35,9 @@ val databaseModule = module {
 
     single {
         UserDataSource(get<AppDatabase>().userQueries)
+    }
+
+    single {
+        DetailPostDataSource(get<AppDatabase>().postViewQueries)
     }
 }

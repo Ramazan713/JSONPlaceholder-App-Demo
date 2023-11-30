@@ -14,13 +14,6 @@ class PostDataSource constructor(
     private val ioDispatcher: CoroutineDispatcher = Dispatchers.IO
 ) {
 
-    fun getPostsByUserId(userId: Int): Flow<List<Posts>>{
-        return postQueries
-            .getPostByUserId(userId.toLong())
-            .asFlow()
-            .mapToList(ioDispatcher)
-    }
-
     suspend fun deletePostById(id: Int){
         withContext(ioDispatcher){
             postQueries.deletePostById(id.toLong())

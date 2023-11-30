@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.myjsonplaceholderapp.domain.repo.UserRepo
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
@@ -20,20 +21,36 @@ class HomeViewModel constructor(
         loadData()
     }
 
-    fun refresh(){
-        loadData(true)
+    fun onEvent(event: HomeEvent){
+        when(event){
+            is HomeEvent.Delete -> {
+                viewModelScope.launch {
+                    userRepo.deleteUser(event.user)
+                }
+            }
+            HomeEvent.Refresh ->{
+                viewModelScope.launch {
+                    userRepo.refreshUsers()
+                }
+            }
+        }
     }
 
-    private fun loadData(refresh: Boolean = false){
+    private fun loadData(){
         viewModelScope.launch {
             _state.update { it.copy(isLoading = true) }
-            val items = userRepo.getUsers(refresh = refresh)
-            _state.update {
-                it.copy(
-                    items = items,
-                    isLoading = false
-                )
+            userRepo.getFlowUsers().collectLatest { items->
+                if(items.isEmpty()){
+                    onEvent(HomeEvent.Refresh)
+                }
+                _state.update {
+                    it.copy(
+                        items = items,
+                        isLoading = false
+                    )
+                }
             }
+
         }
     }
 }

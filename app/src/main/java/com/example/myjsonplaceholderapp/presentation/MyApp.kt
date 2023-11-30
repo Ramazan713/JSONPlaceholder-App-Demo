@@ -35,7 +35,7 @@ fun MyApp() {
                 onNavigateToDetail = {
                     navController.navigateToDetail(it)
                 },
-                onRefresh = homeViewModel::refresh
+                onEvent = homeViewModel::onEvent
             )
         }
 

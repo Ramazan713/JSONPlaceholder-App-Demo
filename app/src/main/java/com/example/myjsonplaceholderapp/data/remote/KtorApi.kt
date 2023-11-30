@@ -8,6 +8,8 @@ interface KtorApi {
 
     suspend fun getUsers(): List<UserDtoResponse>
 
+    suspend fun deleteUserById(userId: Int)
+
     suspend fun getPosts(userId: Int): List<PostDtoResponse>
 
     suspend fun deletePostById(postId: Int)

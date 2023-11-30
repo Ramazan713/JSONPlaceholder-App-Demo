@@ -1,0 +1,6 @@
+CREATE VIEW DetailPostView AS
+    SELECT U.username username,* FROM Posts P, Users U WHERE P.userId = U.id;
+
+
+getDetailPostsByUserId:
+SELECT * FROM DetailPostView WHERE userId = :userId;

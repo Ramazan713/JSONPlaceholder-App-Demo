@@ -16,7 +16,7 @@ val appModule = module {
     }
 
     single<PostRepo> {
-        PostRepoImpl(get(),get())
+        PostRepoImpl(get(),get(),get())
     }
 
     viewModel {
