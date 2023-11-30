@@ -34,7 +34,8 @@ fun MyApp() {
                 state = state,
                 onNavigateToDetail = {
                     navController.navigateToDetail(it)
-                }
+                },
+                onRefresh = homeViewModel::refresh
             )
         }
 
@@ -48,7 +49,8 @@ fun MyApp() {
             val state by detailViewModel.state.collectAsStateWithLifecycle()
 
             DetailPage(
-                state = state
+                state = state,
+                onRefresh = detailViewModel::refresh
             )
         }
 

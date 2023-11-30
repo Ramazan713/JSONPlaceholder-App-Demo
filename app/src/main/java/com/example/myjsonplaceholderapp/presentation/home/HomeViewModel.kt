@@ -20,11 +20,14 @@ class HomeViewModel constructor(
         loadData()
     }
 
+    fun refresh(){
+        loadData(true)
+    }
 
-    private fun loadData(){
+    private fun loadData(refresh: Boolean = false){
         viewModelScope.launch {
             _state.update { it.copy(isLoading = true) }
-            val items = userRepo.getUsers()
+            val items = userRepo.getUsers(refresh = refresh)
             _state.update {
                 it.copy(
                     items = items,

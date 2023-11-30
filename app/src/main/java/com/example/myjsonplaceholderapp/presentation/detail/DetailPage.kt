@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -19,7 +20,8 @@ import com.example.myjsonplaceholderapp.presentation.home.components.UserRow
 
 @Composable
 fun DetailPage(
-    state: DetailState
+    state: DetailState,
+    onRefresh: () -> Unit
 ) {
     Box(modifier = Modifier.fillMaxSize()){
 
@@ -35,6 +37,11 @@ fun DetailPage(
             verticalArrangement = Arrangement.spacedBy(4.dp),
             contentPadding = PaddingValues(horizontal = 4.dp)
         ) {
+            item {
+                Button(onClick = onRefresh) {
+                    Text(text = "Refresh")
+                }
+            }
             items(state.items){item->
                 PostRow(
                     post = item,
@@ -52,6 +59,7 @@ fun DetailPage(
 @Composable
 fun DetailPagePreview() {
     DetailPage(
-        state = DetailState()
+        state = DetailState(),
+        onRefresh = {}
     )
 }

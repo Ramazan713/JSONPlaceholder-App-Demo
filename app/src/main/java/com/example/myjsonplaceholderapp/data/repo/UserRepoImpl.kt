@@ -1,5 +1,6 @@
 package com.example.myjsonplaceholderapp.data.repo
 
+import android.util.Log
 import com.example.myjsonplaceholderapp.data.local.service.UserDataSource
 import com.example.myjsonplaceholderapp.data.mapper.toUser
 import com.example.myjsonplaceholderapp.data.mapper.toUserEntity
@@ -15,8 +16,13 @@ class UserRepoImpl constructor(
         var userEntities = userDataSource.getUsers()
 
         if(userEntities.isEmpty() || refresh){
-            val userEntitiesFromDto = api.getUsers().map { it.toUserEntity() }
-            userDataSource.insertUsers(userEntitiesFromDto)
+           try {
+               val userEntitiesFromDto = api.getUsers().map { it.toUserEntity() }
+               userDataSource.insertUsers(userEntitiesFromDto)
+               Log.d("asdasdsadsadasdda","userSucceed:")
+           }catch (e: Exception){
+               Log.d("asdasdsadsadasdda","errorUser: ${e.localizedMessage}")
+           }
 
             userEntities = userDataSource.getUsers()
         }

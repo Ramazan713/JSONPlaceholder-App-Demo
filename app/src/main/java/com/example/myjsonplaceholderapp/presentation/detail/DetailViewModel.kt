@@ -32,11 +32,15 @@ class DetailViewModel constructor(
         loadData()
     }
 
-    private fun loadData(){
+    fun refresh(){
+        loadData(true)
+    }
+
+    private fun loadData(refresh: Boolean = false){
 
         viewModelScope.launch {
             _state.update { it.copy(isLoading = true) }
-            val posts = postRepo.getPostsByUserId(args.userId)
+            val posts = postRepo.getPostsByUserId(args.userId,refresh)
             _state.update {
                 it.copy(
                     isLoading = false,

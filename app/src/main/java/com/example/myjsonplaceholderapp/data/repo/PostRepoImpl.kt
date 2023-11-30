@@ -1,5 +1,6 @@
 package com.example.myjsonplaceholderapp.data.repo
 
+import android.util.Log
 import com.example.myjsonplaceholderapp.data.local.service.PostDataSource
 import com.example.myjsonplaceholderapp.data.mapper.toPost
 import com.example.myjsonplaceholderapp.data.mapper.toPostEntity
@@ -16,10 +17,14 @@ class PostRepoImpl constructor(
         var postEntities = postDataSource.getPostsByUserId(userId)
 
         if(postEntities.isEmpty() || refresh){
-            val postEntitiesFromDto = ktorApi.getPosts(userId).map { it.toPostEntity() }
-            postDataSource.insertPosts(postEntitiesFromDto)
+            try {
+                val postEntitiesFromDto = ktorApi.getPosts(userId).map { it.toPostEntity() }
+                postDataSource.insertPosts(postEntitiesFromDto)
 
-            postEntities = postDataSource.getPostsByUserId(userId)
+                postEntities = postDataSource.getPostsByUserId(userId)
+            }catch (e: Exception){
+                Log.d("asdasdsadsadasdda","postError: ${e.localizedMessage}")
+            }
         }
         return postEntities.map { it.toPost() }
     }
