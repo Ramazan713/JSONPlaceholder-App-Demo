@@ -2,6 +2,7 @@ package com.example.myjsonplaceholderapp
 
 import android.app.Application
 import com.example.myjsonplaceholderapp.di.appModule
+import com.example.myjsonplaceholderapp.di.databaseModule
 import com.example.myjsonplaceholderapp.di.remoteModule
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.context.startKoin
@@ -13,7 +14,7 @@ class App: Application() {
         startKoin {
             androidContext(this@App)
 
-            modules(remoteModule, appModule)
+            modules(remoteModule, databaseModule,appModule)
         }
     }
 }

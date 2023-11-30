@@ -1,0 +1,15 @@
+CREATE TABLE Posts (
+    id INTEGER PRIMARY KEY,
+    userId INTEGER NOT NULL,
+    body TEXT NOT NULL,
+    title TEXT NOT NULL
+);
+
+getPostByUserId:
+SELECT * FROM Posts WHERE userId = :userId;
+
+deletePostById:
+DELETE FROM Posts WHERE id = :id;
+
+insertPost:
+INSERT OR REPLACE INTO Posts VALUES ?;

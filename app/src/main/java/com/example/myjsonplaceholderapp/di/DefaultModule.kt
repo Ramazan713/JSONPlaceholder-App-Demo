@@ -18,11 +18,11 @@ import org.koin.dsl.module
 
 val appModule = module {
     single<UserRepo> {
-        UserRepoImpl(get())
+        UserRepoImpl(get(),get())
     }
 
     single<PostRepo> {
-        PostRepoImpl(get())
+        PostRepoImpl(get(),get())
     }
 
     viewModel {

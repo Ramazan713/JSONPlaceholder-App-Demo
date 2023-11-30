@@ -1,0 +1,22 @@
+CREATE TABLE Users (
+    id INTEGER PRIMARY KEY,
+    name TEXT NOT NULL,
+    username TEXT NOT NULL,
+    email TEXT NOT NULL
+);
+
+
+getUsers:
+SELECT * FROM Users;
+
+getUserById:
+SELECT * FROM Users WHERE id = :id;
+
+getNameById:
+SELECT name FROM Users WHERE id = :id;
+
+deleteUserById:
+DELETE FROM Users WHERE id = :id;
+
+insertUser:
+INSERT OR REPLACE INTO Users VALUES ?;

@@ -4,6 +4,6 @@ import com.example.myjsonplaceholderapp.domain.models.User
 
 interface UserRepo {
 
-    suspend fun getUsers(): List<User>
+    suspend fun getUsers(refresh: Boolean = false): List<User>
 
 }
