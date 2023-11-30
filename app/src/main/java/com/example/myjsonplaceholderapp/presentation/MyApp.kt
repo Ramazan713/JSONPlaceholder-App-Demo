@@ -50,7 +50,7 @@ fun MyApp() {
 
             DetailPage(
                 state = state,
-                onRefresh = detailViewModel::refresh
+                onEvent = detailViewModel::onEvent
             )
         }
 

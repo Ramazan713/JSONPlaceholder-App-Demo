@@ -121,9 +121,10 @@ dependencies {
     implementation("io.ktor:ktor-serialization-kotlinx-json:$ktor_version")
     implementation("io.ktor:ktor-client-android:$ktor_version")
     implementation("io.ktor:ktor-client-logging:$ktor_version")
-
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.1")
+
     implementation("app.cash.sqldelight:android-driver:2.0.0")
+    implementation("app.cash.sqldelight:coroutines-extensions:2.0.0")
 
     implementation("io.insert-koin:koin-android:$koin_version")
     implementation("io.insert-koin:koin-annotations:1.3.0")

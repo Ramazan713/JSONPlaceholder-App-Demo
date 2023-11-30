@@ -1,9 +1,12 @@
 package com.example.myjsonplaceholderapp.data.local.service
 
+import app.cash.sqldelight.coroutines.asFlow
+import app.cash.sqldelight.coroutines.mapToList
 import com.example.PostQueries
 import com.example.Posts
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.withContext
 
 class PostDataSource constructor(
@@ -11,12 +14,11 @@ class PostDataSource constructor(
     private val ioDispatcher: CoroutineDispatcher = Dispatchers.IO
 ) {
 
-    suspend fun getPostsByUserId(userId: Int): List<Posts>{
-        return withContext(ioDispatcher){
-            postQueries
-                .getPostByUserId(userId.toLong())
-                .executeAsList()
-        }
+    fun getPostsByUserId(userId: Int): Flow<List<Posts>>{
+        return postQueries
+            .getPostByUserId(userId.toLong())
+            .asFlow()
+            .mapToList(ioDispatcher)
     }
 
     suspend fun deletePostById(id: Int){

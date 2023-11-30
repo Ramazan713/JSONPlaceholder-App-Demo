@@ -8,6 +8,7 @@ import com.example.myjsonplaceholderapp.domain.repo.PostRepo
 import com.example.myjsonplaceholderapp.presentation.home.HomeState
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
@@ -32,21 +33,53 @@ class DetailViewModel constructor(
         loadData()
     }
 
-    fun refresh(){
-        loadData(true)
+    fun onEvent(event: DetailEvent){
+        when(event){
+            is DetailEvent.AddPost -> {
+                viewModelScope.launch {
+                    postRepo.addPost(event.body,args.userId)
+                }
+            }
+            is DetailEvent.DeletePost -> {
+                viewModelScope.launch {
+                    postRepo.deletePostById(event.id)
+                }
+            }
+            DetailEvent.Refresh -> {
+                viewModelScope.launch {
+                    _state.update { it.copy(isLoading = true) }
+                    postRepo.refreshPosts(args.userId)
+                }
+            }
+            is DetailEvent.UpdatePost -> {
+                viewModelScope.launch {
+                    val updatedPost = event.oldPost.copy(body = event.content)
+                    postRepo.updatePost(updatedPost)
+                }
+            }
+            is DetailEvent.ShowDialog -> {
+                _state.update {
+                    it.copy(dialogEvent = event.event)
+                }
+            }
+        }
     }
 
-    private fun loadData(refresh: Boolean = false){
-
+    private fun loadData(){
         viewModelScope.launch {
             _state.update { it.copy(isLoading = true) }
-            val posts = postRepo.getPostsByUserId(args.userId,refresh)
-            _state.update {
-                it.copy(
-                    isLoading = false,
-                    items = posts
-                )
+            postRepo.getFlowPostsByUserId(args.userId).collectLatest { posts->
+                if(posts.isEmpty()){
+                    onEvent(DetailEvent.Refresh)
+                }
+                _state.update {
+                    it.copy(
+                        isLoading = false,
+                        items = posts
+                    )
+                }
             }
+
         }
     }
 }

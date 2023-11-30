@@ -1,11 +1,12 @@
 package com.example.myjsonplaceholderapp.data.mapper
 
 import com.example.Posts
+import com.example.myjsonplaceholderapp.data.remote.dto.PostDtoRequest
 import com.example.myjsonplaceholderapp.data.remote.dto.PostDtoResponse
 import com.example.myjsonplaceholderapp.domain.models.Post
 
-fun PostDtoResponse.toPost(): Post{
-    return Post(
+fun Post.toPostDtoRequest(): PostDtoRequest{
+    return PostDtoRequest(
         body, id, title, userId
     )
 }
