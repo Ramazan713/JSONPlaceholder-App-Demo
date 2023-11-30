@@ -1,6 +1,7 @@
 package com.example.myjsonplaceholderapp.data.remote.type_safe_api
 
 import com.example.myjsonplaceholderapp.data.remote.KtorApi
+import com.example.myjsonplaceholderapp.data.remote.dto.CommentDtoResponse
 import com.example.myjsonplaceholderapp.data.remote.dto.PostDtoRequest
 import com.example.myjsonplaceholderapp.data.remote.dto.PostDtoResponse
 import com.example.myjsonplaceholderapp.data.remote.dto.UserDtoResponse
@@ -19,6 +20,14 @@ class TypeSafeKtorApi constructor(
 
     override suspend fun deleteUserById(userId: Int) {
         client.delete(UsersResource.Id(id = userId))
+    }
+
+    override suspend fun getCommentsByPostId(postId: Int): List<CommentDtoResponse> {
+        return client.get(CommentsResource(postId = postId)).body()
+    }
+
+    override suspend fun deleteCommentById(commentId: Int) {
+        client.delete(CommentsResource.Id(id = commentId))
     }
 
     override suspend fun getPosts(userId: Int): List<PostDtoResponse> {

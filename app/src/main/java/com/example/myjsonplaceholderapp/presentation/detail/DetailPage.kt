@@ -72,12 +72,15 @@ fun DetailPage(
                 }
                 items(state.items){item->
                     PostRow(
-                        post = item,
+                        postComments = item,
                         onDelete = {
-                            onEvent(DetailEvent.DeletePost(item.id))
+                            onEvent(DetailEvent.DeletePost(item.post.id))
                         },
                         onUpdate = {
-                            onEvent(DetailEvent.ShowDialog(DetailDialogEvent.UpdatePost(item)))
+                            onEvent(DetailEvent.ShowDialog(DetailDialogEvent.UpdatePost(item.post)))
+                        },
+                        onDeleteComment = {
+                            onEvent(DetailEvent.DeleteComment(it))
                         }
                     )
                 }

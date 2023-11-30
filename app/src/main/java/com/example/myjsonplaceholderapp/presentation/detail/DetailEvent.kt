@@ -1,5 +1,6 @@
 package com.example.myjsonplaceholderapp.presentation.detail
 
+import com.example.myjsonplaceholderapp.domain.models.Comment
 import com.example.myjsonplaceholderapp.domain.models.Post
 
 sealed interface DetailEvent {
@@ -7,6 +8,8 @@ sealed interface DetailEvent {
     data object Refresh: DetailEvent
 
     data class DeletePost(val id: Int): DetailEvent
+
+    data class DeleteComment(val comment: Comment): DetailEvent
 
     data class AddPost(val body: String): DetailEvent
 

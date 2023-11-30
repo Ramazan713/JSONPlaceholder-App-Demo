@@ -3,7 +3,7 @@ CREATE TABLE Posts (
     userId INTEGER NOT NULL,
     body TEXT NOT NULL,
     title TEXT NOT NULL,
-    FOREIGN KEY(userId) REFERENCES Users(id) ON DELETE CASCADE
+    FOREIGN KEY(userId) REFERENCES Users(id) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
 getPostByUserId:
@@ -14,3 +14,6 @@ DELETE FROM Posts WHERE id = :id;
 
 insertPost:
 INSERT OR REPLACE INTO Posts VALUES ?;
+
+updatePost:
+UPDATE Posts SET body = :body, title = :title WHERE id = :id;

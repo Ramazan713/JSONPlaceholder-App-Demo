@@ -62,13 +62,21 @@ class DetailViewModel constructor(
                     it.copy(dialogEvent = event.event)
                 }
             }
+
+            is DetailEvent.DeleteComment -> {
+                viewModelScope.launch {
+                    postRepo.deleteCommentById(event.comment.id)
+                }
+            }
         }
     }
 
     private fun loadData(){
         viewModelScope.launch {
             _state.update { it.copy(isLoading = true) }
+            Log.d("asdasdsadsadasdda","startisLoading")
             postRepo.getFlowPostsByUserId(args.userId).collectLatest { posts->
+                Log.d("asdasdsadsadasdda","getFlowData: ${posts.size}")
                 if(posts.isEmpty()){
                     onEvent(DetailEvent.Refresh)
                 }

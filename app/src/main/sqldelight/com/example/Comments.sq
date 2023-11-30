@@ -1,0 +1,18 @@
+CREATE TABLE Comments (
+    id INTEGER PRIMARY KEY,
+    postId INTEGER NOT NULL,
+    name TEXT NOT NULL,
+    body TEXT NOT NULL,
+    email TEXT NOT NULL,
+    FOREIGN KEY(postId) REFERENCES Posts(id) ON DELETE CASCADE ON UPDATE CASCADE
+);
+
+
+insertComment:
+INSERT OR REPLACE INTO Comments VALUES ?;
+
+getCommentsByPostId:
+SELECT * FROM Comments WHERE postId = :postId;
+
+deleteById:
+DELETE FROM Comments WHERE id = :id;

@@ -19,17 +19,21 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.example.myjsonplaceholderapp.domain.models.Comment
 import com.example.myjsonplaceholderapp.domain.models.Post
+import com.example.myjsonplaceholderapp.domain.models.PostComments
 import com.example.myjsonplaceholderapp.presentation.utils.SampleData
 
 @Composable
 fun PostRow(
     modifier: Modifier = Modifier,
-    post: Post,
+    postComments: PostComments,
     onUpdate: () -> Unit,
-    onDelete: () -> Unit
+    onDelete: () -> Unit,
+    onDeleteComment: (Comment) -> Unit
 ) {
     val shape = MaterialTheme.shapes.medium
+    val post = postComments.post
 
     Card(
         shape = shape,
@@ -48,6 +52,12 @@ fun PostRow(
                 style = MaterialTheme.typography.bodyMedium,
                 modifier = Modifier.heightIn(min = 50.dp)
             )
+
+            CommentSection(
+                comments = postComments.comments,
+                onDeleteComment = onDeleteComment
+            )
+
             Divider(
                 modifier = Modifier.padding(vertical = 8.dp)
             )
@@ -88,8 +98,9 @@ fun PostRow(
 @Composable
 fun PostRowPreview() {
     PostRow(
-        post = SampleData.post,
+        postComments = SampleData.postComments,
         onUpdate = {},
-        onDelete = {}
+        onDelete = {},
+        onDeleteComment = {}
     )
 }

@@ -21,23 +21,9 @@ class UserDataSource constructor(
             .mapToList(ioDispatcher)
     }
 
-    suspend fun getUserById(userId: Int): Users?{
-        return withContext(ioDispatcher){
-            userQueries
-                .getUserById(userId.toLong())
-                .executeAsOneOrNull()
-        }
-    }
-
     suspend fun deleteUserById(id: Int){
         withContext(ioDispatcher){
             userQueries.deleteUserById(id.toLong())
-        }
-    }
-
-    suspend fun insertUser(user: Users){
-        withContext(ioDispatcher){
-            userQueries.insertUser(user)
         }
     }
 

@@ -1,5 +1,6 @@
 package com.example.myjsonplaceholderapp.data.remote
 
+import com.example.myjsonplaceholderapp.data.remote.dto.CommentDtoResponse
 import com.example.myjsonplaceholderapp.data.remote.dto.PostDtoRequest
 import com.example.myjsonplaceholderapp.data.remote.dto.PostDtoResponse
 import com.example.myjsonplaceholderapp.data.remote.dto.UserDtoResponse
@@ -26,6 +27,23 @@ class KtorApiImpl constructor(
         client.delete {
             url {
                 path("users",userId.toString())
+            }
+        }
+    }
+
+    override suspend fun getCommentsByPostId(postId: Int): List<CommentDtoResponse> {
+        return client.get {
+            url {
+                path("comments")
+                parameter("postId",postId)
+            }
+        }.body()
+    }
+
+    override suspend fun deleteCommentById(commentId: Int) {
+        client.delete {
+            url {
+                path("comments",commentId.toString())
             }
         }
     }
