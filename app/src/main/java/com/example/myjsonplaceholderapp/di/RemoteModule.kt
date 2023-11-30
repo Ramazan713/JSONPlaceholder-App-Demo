@@ -2,17 +2,17 @@ package com.example.myjsonplaceholderapp.di
 
 import android.util.Log
 import com.example.myjsonplaceholderapp.data.remote.KtorApi
+import com.example.myjsonplaceholderapp.data.remote.KtorApiImpl
+import com.example.myjsonplaceholderapp.data.remote.type_safe_api.TypeSafeKtorApi
 import io.ktor.client.HttpClient
 import io.ktor.client.engine.android.Android
 import io.ktor.client.plugins.DefaultRequest
 import io.ktor.client.plugins.HttpRequestRetry
-import io.ktor.client.plugins.cache.HttpCache
 import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
-import io.ktor.client.plugins.logging.DEFAULT
 import io.ktor.client.plugins.logging.LogLevel
 import io.ktor.client.plugins.logging.Logger
 import io.ktor.client.plugins.logging.Logging
-import io.ktor.client.request.accept
+import io.ktor.client.plugins.resources.Resources
 import io.ktor.client.request.headers
 import io.ktor.http.ContentType
 import io.ktor.http.HttpHeaders
@@ -56,6 +56,8 @@ val remoteModule = module {
                 exponentialDelay(maxDelayMs = 16000)
             }
 
+            install(Resources)
+
 //            install(HttpCache){
 //
 //            }
@@ -63,8 +65,8 @@ val remoteModule = module {
         }
     }
 
-    single {
-        KtorApi(get())
+    single<KtorApi> {
+        TypeSafeKtorApi(get())
     }
 }
 

@@ -5,6 +5,7 @@ import com.example.myjsonplaceholderapp.data.local.service.UserDataSource
 import com.example.myjsonplaceholderapp.data.mapper.toUser
 import com.example.myjsonplaceholderapp.data.mapper.toUserEntity
 import com.example.myjsonplaceholderapp.data.remote.KtorApi
+import com.example.myjsonplaceholderapp.data.remote.KtorApiImpl
 import com.example.myjsonplaceholderapp.domain.models.User
 import com.example.myjsonplaceholderapp.domain.repo.UserRepo
 
@@ -19,7 +20,6 @@ class UserRepoImpl constructor(
            try {
                val userEntitiesFromDto = api.getUsers().map { it.toUserEntity() }
                userDataSource.insertUsers(userEntitiesFromDto)
-               Log.d("asdasdsadsadasdda","userSucceed:")
            }catch (e: Exception){
                Log.d("asdasdsadsadasdda","errorUser: ${e.localizedMessage}")
            }
