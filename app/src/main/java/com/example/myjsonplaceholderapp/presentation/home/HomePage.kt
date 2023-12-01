@@ -13,6 +13,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.zIndex
 import com.example.myjsonplaceholderapp.presentation.home.components.UserRow
+import com.example.myjsonplaceholderapp.presentation.utils.ListenMessage
 
 @Composable
 fun HomePage(
@@ -21,6 +22,10 @@ fun HomePage(
     onEvent: (HomeEvent) -> Unit,
 ) {
 
+    ListenMessage(
+        message = state.message,
+        onClearMessage = { onEvent(HomeEvent.ClearMessage) }
+    )
 
     Box(modifier = Modifier.fillMaxSize()){
 

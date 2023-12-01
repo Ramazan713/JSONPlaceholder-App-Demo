@@ -24,14 +24,38 @@ class HomeViewModel constructor(
     fun onEvent(event: HomeEvent){
         when(event){
             is HomeEvent.Delete -> {
-                viewModelScope.launch {
+                handleRequest {
                     userRepo.deleteUser(event.user)
                 }
             }
             HomeEvent.Refresh ->{
-                viewModelScope.launch {
+                handleRequest {
                     userRepo.refreshUsers()
                 }
+            }
+
+            HomeEvent.ClearMessage -> {
+                _state.update { it.copy(message = null) }
+            }
+        }
+    }
+
+    private fun<T> handleRequest( execute: suspend () -> Result<T>){
+        viewModelScope.launch {
+            _state.update { it.copy(isLoading = true) }
+
+            val result = execute()
+
+            result.onFailure {error->
+                _state.update { it.copy(
+                    message = error.localizedMessage,
+                    isLoading = false
+                ) }
+            }
+            result.onSuccess {
+                _state.update { it.copy(
+                    isLoading = false
+                ) }
             }
         }
     }

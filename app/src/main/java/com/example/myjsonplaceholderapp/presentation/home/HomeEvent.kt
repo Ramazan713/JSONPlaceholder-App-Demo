@@ -7,4 +7,7 @@ sealed interface HomeEvent {
     data object Refresh: HomeEvent
 
     data class Delete(val user: User): HomeEvent
+
+    data object ClearMessage: HomeEvent
+
 }

@@ -6,15 +6,15 @@ import kotlinx.coroutines.flow.Flow
 
 interface PostRepo {
 
-    suspend fun refreshPosts(userId: Int)
+    suspend fun refreshPosts(userId: Int): Result<Unit>
 
     suspend fun getFlowPostsByUserId(userId: Int): Flow<List<PostComments>>
 
-    suspend fun updatePost(updatedPost: Post)
+    suspend fun updatePost(updatedPost: Post): Result<Unit>
 
-    suspend fun addPost(content: String, userId: Int)
+    suspend fun addPost(content: String, userId: Int): Result<Unit>
 
-    suspend fun deletePostById(postId: Int)
+    suspend fun deletePostById(postId: Int): Result<Unit>
 
-    suspend fun deleteCommentById(commentId: Int)
+    suspend fun deleteCommentById(commentId: Int): Result<Unit>
 }

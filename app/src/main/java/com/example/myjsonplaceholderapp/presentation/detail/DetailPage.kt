@@ -30,12 +30,18 @@ import androidx.compose.ui.zIndex
 import com.example.myjsonplaceholderapp.presentation.detail.components.PostRow
 import com.example.myjsonplaceholderapp.presentation.dia.GetInputDia
 import com.example.myjsonplaceholderapp.presentation.home.components.UserRow
+import com.example.myjsonplaceholderapp.presentation.utils.ListenMessage
 
 @Composable
 fun DetailPage(
     state: DetailState,
     onEvent: (DetailEvent) -> Unit,
 ) {
+
+    ListenMessage(
+        message = state.message,
+        onClearMessage = { onEvent(DetailEvent.ClearMessage) }
+    )
 
     Scaffold(
         floatingActionButton = {

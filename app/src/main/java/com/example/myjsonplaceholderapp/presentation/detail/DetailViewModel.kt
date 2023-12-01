@@ -36,23 +36,22 @@ class DetailViewModel constructor(
     fun onEvent(event: DetailEvent){
         when(event){
             is DetailEvent.AddPost -> {
-                viewModelScope.launch {
+                handleRequest {
                     postRepo.addPost(event.body,args.userId)
                 }
             }
             is DetailEvent.DeletePost -> {
-                viewModelScope.launch {
+                handleRequest {
                     postRepo.deletePostById(event.id)
                 }
             }
             DetailEvent.Refresh -> {
-                viewModelScope.launch {
-                    _state.update { it.copy(isLoading = true) }
+                handleRequest {
                     postRepo.refreshPosts(args.userId)
                 }
             }
             is DetailEvent.UpdatePost -> {
-                viewModelScope.launch {
+                handleRequest {
                     val updatedPost = event.oldPost.copy(body = event.content)
                     postRepo.updatePost(updatedPost)
                 }
@@ -64,9 +63,33 @@ class DetailViewModel constructor(
             }
 
             is DetailEvent.DeleteComment -> {
-                viewModelScope.launch {
+                handleRequest {
                     postRepo.deleteCommentById(event.comment.id)
                 }
+            }
+            DetailEvent.ClearMessage -> {
+                _state.update { it.copy(message = null) }
+            }
+        }
+    }
+
+
+    private fun<T> handleRequest( execute: suspend () -> Result<T>){
+        viewModelScope.launch {
+            _state.update { it.copy(isLoading = true) }
+
+            val result = execute()
+
+            result.onFailure {error->
+                _state.update { it.copy(
+                    message = error.localizedMessage,
+                    isLoading = false
+                ) }
+            }
+            result.onSuccess {
+                _state.update { it.copy(
+                    isLoading = false
+                ) }
             }
         }
     }
@@ -74,9 +97,7 @@ class DetailViewModel constructor(
     private fun loadData(){
         viewModelScope.launch {
             _state.update { it.copy(isLoading = true) }
-            Log.d("asdasdsadsadasdda","startisLoading")
             postRepo.getFlowPostsByUserId(args.userId).collectLatest { posts->
-                Log.d("asdasdsadsadasdda","getFlowData: ${posts.size}")
                 if(posts.isEmpty()){
                     onEvent(DetailEvent.Refresh)
                 }

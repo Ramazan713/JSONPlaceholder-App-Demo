@@ -5,11 +5,10 @@ import kotlinx.coroutines.flow.Flow
 
 interface UserRepo {
 
-
-    suspend fun refreshUsers()
+    suspend fun refreshUsers(): Result<Unit>
 
     fun getFlowUsers(): Flow<List<User>>
 
-    suspend fun deleteUser(user: User)
+    suspend fun deleteUser(user: User): Result<Unit>
 
 }
