@@ -37,31 +37,6 @@ android {
         targetCompatibility = JavaVersion.VERSION_1_8
     }
 
-    sourceSets {
-        getByName("main"){
-            java.srcDir("src/main/kotlin")
-        }
-        getByName("test"){
-            java.srcDir("src/test/kotlin")
-        }
-    }
-    applicationVariants.configureEach {
-        kotlin.sourceSets {
-            getByName(name) {
-                kotlin.srcDir("build/generated/ksp/${name}/kotlin")
-            }
-        }
-    }
-
-//    kotlin {
-//        sourceSets.configureEach {
-//            kotlin.srcDir("$buildDir/generated/ksp/$name/kotlin/")
-//        }
-//    }
-
-    ksp {
-        arg("KOIN_CONFIG_CHECK","true")
-    }
 
     kotlinOptions {
         jvmTarget = "1.8"
